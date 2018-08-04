@@ -189,3 +189,20 @@ type ServiceSpec struct {
 	// +optional
 	HealthCheckNodePort int32 `json:"healthCheckNodePort,omitempty"`
 }
+
+// TLSPolicy defines the TLS policy of the pods
+// If this is not set, operator will auto-gen TLS assets and secrets.
+type TLSPolicy struct {
+	// TLSSecret is the secret containing TLS certs used by each vault node
+	// for the communication between the server and its clients.
+	// The secret should contain three files:
+	//	- ca.crt
+	// 	- server.crt
+	// 	- server.key
+	//
+	// The server certificate must allow the following wildcard domains:
+	// 	- localhost
+	// 	- *.<namespace>.pod
+	// 	- <svc>.<namespace>.svc
+	TLSSecret string `json:"tlsSecret"`
+}
