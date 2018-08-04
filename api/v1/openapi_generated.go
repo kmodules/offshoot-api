@@ -34,6 +34,7 @@ func GetOpenAPIDefinitions(ref common.ReferenceCallback) map[string]common.OpenA
 		"kmodules.xyz/offshoot-api/api/v1.PodTemplateSpec":     schema_kmodulesxyz_offshoot_api_api_v1_PodTemplateSpec(ref),
 		"kmodules.xyz/offshoot-api/api/v1.ServiceSpec":         schema_kmodulesxyz_offshoot_api_api_v1_ServiceSpec(ref),
 		"kmodules.xyz/offshoot-api/api/v1.ServiceTemplateSpec": schema_kmodulesxyz_offshoot_api_api_v1_ServiceTemplateSpec(ref),
+		"kmodules.xyz/offshoot-api/api/v1.TLSPolicy":           schema_kmodulesxyz_offshoot_api_api_v1_TLSPolicy(ref),
 	}
 }
 
@@ -319,5 +320,26 @@ func schema_kmodulesxyz_offshoot_api_api_v1_ServiceTemplateSpec(ref common.Refer
 		},
 		Dependencies: []string{
 			"kmodules.xyz/offshoot-api/api/v1.ObjectMeta", "kmodules.xyz/offshoot-api/api/v1.ServiceSpec"},
+	}
+}
+
+func schema_kmodulesxyz_offshoot_api_api_v1_TLSPolicy(ref common.ReferenceCallback) common.OpenAPIDefinition {
+	return common.OpenAPIDefinition{
+		Schema: spec.Schema{
+			SchemaProps: spec.SchemaProps{
+				Description: "TLSPolicy defines the TLS policy of the pods If this is not set, operator will auto-gen TLS assets and secrets.",
+				Properties: map[string]spec.Schema{
+					"tlsSecret": {
+						SchemaProps: spec.SchemaProps{
+							Description: "TLSSecret is the secret containing TLS certs used by each vault node for the communication between the server and its clients. The secret should contain three files:\n\t- ca.crt\n\t- server.crt\n\t- server.key\n\nThe server certificate must allow the following wildcard domains:\n\t- localhost\n\t- *.<namespace>.pod\n\t- <svc>.<namespace>.svc",
+							Type:        []string{"string"},
+							Format:      "",
+						},
+					},
+				},
+				Required: []string{"tlsSecret"},
+			},
+		},
+		Dependencies: []string{},
 	}
 }
