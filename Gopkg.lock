@@ -62,6 +62,16 @@
   revision = "23def4e6c14b4da8ac2ed8007337bc5eb5007998"
 
 [[projects]]
+  name = "github.com/golang/protobuf"
+  packages = [
+    "jsonpb",
+    "proto",
+    "ptypes/struct"
+  ]
+  revision = "aa810b61a9c79d51363740d207bb46cf8e620ed5"
+  version = "v1.2.0"
+
+[[projects]]
   branch = "master"
   name = "github.com/google/gofuzz"
   packages = ["."]
@@ -133,13 +143,13 @@
   version = "v2.2.1"
 
 [[projects]]
+  branch = "release-1.11"
   name = "k8s.io/api"
   packages = ["core/v1"]
-  revision = "072894a440bdee3a891dea811fe42902311cd2a3"
-  version = "kubernetes-1.11.0"
+  revision = "4e7be11eab3ffcfc1876898b8272df53785a9504"
 
 [[projects]]
-  branch = "release-1.11"
+  branch = "release-1.11.3"
   name = "k8s.io/apimachinery"
   packages = [
     "pkg/api/resource",
@@ -164,7 +174,7 @@
     "pkg/watch",
     "third_party/forked/golang/reflect"
   ]
-  revision = "103fd098999dc9c0c88536f5c9ad2e5da39373ae"
+  revision = "cbad0ea24d3adbf8cc3c0c1b4077b79828119584"
   source = "https://github.com/pharmer/apimachinery.git"
 
 [[projects]]
@@ -176,6 +186,6 @@
 [solve-meta]
   analyzer-name = "dep"
   analyzer-version = 1
-  inputs-digest = "acaad90cd00a254bd2c4448442ebbf2fff1295177302cbe81acef34e32e58d3b"
+  inputs-digest = "1497a84f1d4c783b5e490de0315c982404c923e16adcc44e707b28cedd3c3f31"
   solver-name = "gps-cdcl"
   solver-version = 1
