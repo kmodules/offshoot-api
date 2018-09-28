@@ -26,13 +26,13 @@
 
 
 [[override]]
-  name = "k8s.io/apimachinery"
-  branch = "release-1.11.3"
-  source = "https://github.com/pharmer/apimachinery.git"
+  name = "k8s.io/api"
+  version = "kubernetes-1.12.0"
 
 [[override]]
-  name = "k8s.io/api"
-  version = "kubernetes-1.11.3"
+  name = "k8s.io/apimachinery"
+  branch = "ac-1.12.0"
+  source = "github.com/kmodules/apimachinery"
 
 [prune]
   unused-packages = true
