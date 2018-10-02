@@ -238,3 +238,27 @@ type ServicePort struct {
 	// The port that will be exposed by this service.
 	Port int32 `json:"port"`
 }
+
+func MergeServicePorts(cur []core.ServicePort, desired []ServicePort) []core.ServicePort {
+	if len(desired) == 0 {
+		return cur
+	}
+
+	// ports
+	desiredPorts := make(map[string]int32)
+	for _, p := range desired {
+		if len(p.Name) == 0 {
+			continue
+		}
+		desiredPorts[p.Name] = p.Port
+	}
+	for i, cp := range cur {
+		port, ok := desiredPorts[cp.Name]
+		// svc port not found
+		if !ok {
+			continue
+		}
+		cur[i].Port = port
+	}
+	return cur
+}
