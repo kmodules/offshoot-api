@@ -116,12 +116,8 @@ func (in *PodSpec) DeepCopyInto(out *PodSpec) {
 	}
 	if in.Lifecycle != nil {
 		in, out := &in.Lifecycle, &out.Lifecycle
-		if *in == nil {
-			*out = nil
-		} else {
-			*out = new(core_v1.Lifecycle)
-			(*in).DeepCopyInto(*out)
-		}
+		*out = new(corev1.Lifecycle)
+		(*in).DeepCopyInto(*out)
 	}
 	return
 }
