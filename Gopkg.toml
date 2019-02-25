@@ -27,11 +27,11 @@
 
 [[override]]
   name = "k8s.io/api"
-  version = "kubernetes-1.12.0"
+  version = "kubernetes-1.13.0"
 
 [[override]]
   name = "k8s.io/apimachinery"
-  branch = "ac-1.12.0"
+  branch = "ac-1.13.0"
   source = "github.com/kmodules/apimachinery"
 
 [prune]
