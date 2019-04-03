@@ -233,6 +233,7 @@
   input-imports = [
     "github.com/go-openapi/spec",
     "k8s.io/api/core/v1",
+    "k8s.io/apimachinery/pkg/api/resource",
     "k8s.io/kube-openapi/pkg/common",
   ]
   solver-name = "gps-cdcl"
