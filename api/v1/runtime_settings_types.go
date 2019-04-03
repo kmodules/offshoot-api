@@ -2,27 +2,11 @@ package v1
 
 import (
 	core "k8s.io/api/core/v1"
-	"k8s.io/apimachinery/pkg/api/resource"
 )
 
 type RuntimeSettings struct {
-	Pod               *PodRuntimeSettings        `json:"pod,omitempty"`
-	Container         *ContainerRuntimeSettings  `json:"container,omitempty"`
-	DiskCache         *CacheSettings             `json:"diskCache,omitempty"`
-	ProcessScheduling *ProcessSchedulingSettings `json:"processScheduling,omitempty"`
-}
-
-// https://linux.die.net/man/1/ionice
-// https://linux.die.net/man/1/nice
-type ProcessSchedulingSettings struct {
-	Class      *int32 `json:"class,omitempty"`
-	ClassData  *int32 `json:"classData,omitempty"`
-	Adjustment *int32 `json:"adjustment,omitempty"`
-}
-
-type CacheSettings struct {
-	Medium    core.StorageMedium `json:"medium,omitempty"`
-	SizeLimit *resource.Quantity `json:"sizeLimit,omitempty"`
+	Pod       *PodRuntimeSettings       `json:"pod,omitempty"`
+	Container *ContainerRuntimeSettings `json:"container,omitempty"`
 }
 
 type PodRuntimeSettings struct {
@@ -127,4 +111,25 @@ type ContainerRuntimeSettings struct {
 	// More info: https://kubernetes.io/docs/tasks/configure-pod-container/security-context/
 	// +optional
 	SecurityContext *core.SecurityContext `json:"securityContext,omitempty"`
+	// Settings to configure `nice` to throttle the load on cpu.
+	// More info: http://kennystechtalk.blogspot.com/2015/04/throttling-cpu-usage-with-linux-cgroups.html
+	// More info: https://oakbytes.wordpress.com/2012/06/06/linux-scheduler-cfs-and-nice/
+	// +optional
+	Nice *NiceSettings `json:"nice,omitempty"`
+	// Settings to configure `ionice` to throttle the load on disk.
+	// More info: http://kennystechtalk.blogspot.com/2015/04/throttling-cpu-usage-with-linux-cgroups.html
+	// More info: https://oakbytes.wordpress.com/2012/06/06/linux-scheduler-cfs-and-nice/
+	// +optional
+	IONice *IONiceSettings `json:"ionice,omitempty"`
+}
+
+// https://linux.die.net/man/1/nice
+type NiceSettings struct {
+	Adjustment *int32 `json:"adjustment,omitempty"`
+}
+
+// https://linux.die.net/man/1/ionice
+type IONiceSettings struct {
+	Class     *int32 `json:"class,omitempty"`
+	ClassData *int32 `json:"classData,omitempty"`
 }

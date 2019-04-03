@@ -29,41 +29,17 @@ import (
 
 func GetOpenAPIDefinitions(ref common.ReferenceCallback) map[string]common.OpenAPIDefinition {
 	return map[string]common.OpenAPIDefinition{
-		"kmodules.xyz/offshoot-api/api/v1.CacheSettings":             schema_kmodulesxyz_offshoot_api_api_v1_CacheSettings(ref),
-		"kmodules.xyz/offshoot-api/api/v1.ContainerRuntimeSettings":  schema_kmodulesxyz_offshoot_api_api_v1_ContainerRuntimeSettings(ref),
-		"kmodules.xyz/offshoot-api/api/v1.ObjectMeta":                schema_kmodulesxyz_offshoot_api_api_v1_ObjectMeta(ref),
-		"kmodules.xyz/offshoot-api/api/v1.PodRuntimeSettings":        schema_kmodulesxyz_offshoot_api_api_v1_PodRuntimeSettings(ref),
-		"kmodules.xyz/offshoot-api/api/v1.PodSpec":                   schema_kmodulesxyz_offshoot_api_api_v1_PodSpec(ref),
-		"kmodules.xyz/offshoot-api/api/v1.PodTemplateSpec":           schema_kmodulesxyz_offshoot_api_api_v1_PodTemplateSpec(ref),
-		"kmodules.xyz/offshoot-api/api/v1.ProcessSchedulingSettings": schema_kmodulesxyz_offshoot_api_api_v1_ProcessSchedulingSettings(ref),
-		"kmodules.xyz/offshoot-api/api/v1.RuntimeSettings":           schema_kmodulesxyz_offshoot_api_api_v1_RuntimeSettings(ref),
-		"kmodules.xyz/offshoot-api/api/v1.ServicePort":               schema_kmodulesxyz_offshoot_api_api_v1_ServicePort(ref),
-		"kmodules.xyz/offshoot-api/api/v1.ServiceSpec":               schema_kmodulesxyz_offshoot_api_api_v1_ServiceSpec(ref),
-		"kmodules.xyz/offshoot-api/api/v1.ServiceTemplateSpec":       schema_kmodulesxyz_offshoot_api_api_v1_ServiceTemplateSpec(ref),
-	}
-}
-
-func schema_kmodulesxyz_offshoot_api_api_v1_CacheSettings(ref common.ReferenceCallback) common.OpenAPIDefinition {
-	return common.OpenAPIDefinition{
-		Schema: spec.Schema{
-			SchemaProps: spec.SchemaProps{
-				Properties: map[string]spec.Schema{
-					"medium": {
-						SchemaProps: spec.SchemaProps{
-							Type:   []string{"string"},
-							Format: "",
-						},
-					},
-					"sizeLimit": {
-						SchemaProps: spec.SchemaProps{
-							Ref: ref("k8s.io/apimachinery/pkg/api/resource.Quantity"),
-						},
-					},
-				},
-			},
-		},
-		Dependencies: []string{
-			"k8s.io/apimachinery/pkg/api/resource.Quantity"},
+		"kmodules.xyz/offshoot-api/api/v1.ContainerRuntimeSettings": schema_kmodulesxyz_offshoot_api_api_v1_ContainerRuntimeSettings(ref),
+		"kmodules.xyz/offshoot-api/api/v1.IONiceSettings":           schema_kmodulesxyz_offshoot_api_api_v1_IONiceSettings(ref),
+		"kmodules.xyz/offshoot-api/api/v1.NiceSettings":             schema_kmodulesxyz_offshoot_api_api_v1_NiceSettings(ref),
+		"kmodules.xyz/offshoot-api/api/v1.ObjectMeta":               schema_kmodulesxyz_offshoot_api_api_v1_ObjectMeta(ref),
+		"kmodules.xyz/offshoot-api/api/v1.PodRuntimeSettings":       schema_kmodulesxyz_offshoot_api_api_v1_PodRuntimeSettings(ref),
+		"kmodules.xyz/offshoot-api/api/v1.PodSpec":                  schema_kmodulesxyz_offshoot_api_api_v1_PodSpec(ref),
+		"kmodules.xyz/offshoot-api/api/v1.PodTemplateSpec":          schema_kmodulesxyz_offshoot_api_api_v1_PodTemplateSpec(ref),
+		"kmodules.xyz/offshoot-api/api/v1.RuntimeSettings":          schema_kmodulesxyz_offshoot_api_api_v1_RuntimeSettings(ref),
+		"kmodules.xyz/offshoot-api/api/v1.ServicePort":              schema_kmodulesxyz_offshoot_api_api_v1_ServicePort(ref),
+		"kmodules.xyz/offshoot-api/api/v1.ServiceSpec":              schema_kmodulesxyz_offshoot_api_api_v1_ServiceSpec(ref),
+		"kmodules.xyz/offshoot-api/api/v1.ServiceTemplateSpec":      schema_kmodulesxyz_offshoot_api_api_v1_ServiceTemplateSpec(ref),
 	}
 }
 
@@ -102,11 +78,67 @@ func schema_kmodulesxyz_offshoot_api_api_v1_ContainerRuntimeSettings(ref common.
 							Ref:         ref("k8s.io/api/core/v1.SecurityContext"),
 						},
 					},
+					"nice": {
+						SchemaProps: spec.SchemaProps{
+							Description: "Settings to configure `nice` to throttle the load on cpu. More info: http://kennystechtalk.blogspot.com/2015/04/throttling-cpu-usage-with-linux-cgroups.html More info: https://oakbytes.wordpress.com/2012/06/06/linux-scheduler-cfs-and-nice/",
+							Ref:         ref("kmodules.xyz/offshoot-api/api/v1.NiceSettings"),
+						},
+					},
+					"ionice": {
+						SchemaProps: spec.SchemaProps{
+							Description: "Settings to configure `ionice` to throttle the load on disk. More info: http://kennystechtalk.blogspot.com/2015/04/throttling-cpu-usage-with-linux-cgroups.html More info: https://oakbytes.wordpress.com/2012/06/06/linux-scheduler-cfs-and-nice/",
+							Ref:         ref("kmodules.xyz/offshoot-api/api/v1.IONiceSettings"),
+						},
+					},
 				},
 			},
 		},
 		Dependencies: []string{
-			"k8s.io/api/core/v1.Lifecycle", "k8s.io/api/core/v1.Probe", "k8s.io/api/core/v1.ResourceRequirements", "k8s.io/api/core/v1.SecurityContext"},
+			"k8s.io/api/core/v1.Lifecycle", "k8s.io/api/core/v1.Probe", "k8s.io/api/core/v1.ResourceRequirements", "k8s.io/api/core/v1.SecurityContext", "kmodules.xyz/offshoot-api/api/v1.IONiceSettings", "kmodules.xyz/offshoot-api/api/v1.NiceSettings"},
+	}
+}
+
+func schema_kmodulesxyz_offshoot_api_api_v1_IONiceSettings(ref common.ReferenceCallback) common.OpenAPIDefinition {
+	return common.OpenAPIDefinition{
+		Schema: spec.Schema{
+			SchemaProps: spec.SchemaProps{
+				Description: "https://linux.die.net/man/1/ionice",
+				Properties: map[string]spec.Schema{
+					"class": {
+						SchemaProps: spec.SchemaProps{
+							Type:   []string{"integer"},
+							Format: "int32",
+						},
+					},
+					"classData": {
+						SchemaProps: spec.SchemaProps{
+							Type:   []string{"integer"},
+							Format: "int32",
+						},
+					},
+				},
+			},
+		},
+		Dependencies: []string{},
+	}
+}
+
+func schema_kmodulesxyz_offshoot_api_api_v1_NiceSettings(ref common.ReferenceCallback) common.OpenAPIDefinition {
+	return common.OpenAPIDefinition{
+		Schema: spec.Schema{
+			SchemaProps: spec.SchemaProps{
+				Description: "https://linux.die.net/man/1/nice",
+				Properties: map[string]spec.Schema{
+					"adjustment": {
+						SchemaProps: spec.SchemaProps{
+							Type:   []string{"integer"},
+							Format: "int32",
+						},
+					},
+				},
+			},
+		},
+		Dependencies: []string{},
 	}
 }
 
@@ -466,37 +498,6 @@ func schema_kmodulesxyz_offshoot_api_api_v1_PodTemplateSpec(ref common.Reference
 	}
 }
 
-func schema_kmodulesxyz_offshoot_api_api_v1_ProcessSchedulingSettings(ref common.ReferenceCallback) common.OpenAPIDefinition {
-	return common.OpenAPIDefinition{
-		Schema: spec.Schema{
-			SchemaProps: spec.SchemaProps{
-				Description: "https://linux.die.net/man/1/ionice https://linux.die.net/man/1/nice",
-				Properties: map[string]spec.Schema{
-					"class": {
-						SchemaProps: spec.SchemaProps{
-							Type:   []string{"integer"},
-							Format: "int32",
-						},
-					},
-					"classData": {
-						SchemaProps: spec.SchemaProps{
-							Type:   []string{"integer"},
-							Format: "int32",
-						},
-					},
-					"adjustment": {
-						SchemaProps: spec.SchemaProps{
-							Type:   []string{"integer"},
-							Format: "int32",
-						},
-					},
-				},
-			},
-		},
-		Dependencies: []string{},
-	}
-}
-
 func schema_kmodulesxyz_offshoot_api_api_v1_RuntimeSettings(ref common.ReferenceCallback) common.OpenAPIDefinition {
 	return common.OpenAPIDefinition{
 		Schema: spec.Schema{
@@ -512,21 +513,11 @@ func schema_kmodulesxyz_offshoot_api_api_v1_RuntimeSettings(ref common.Reference
 							Ref: ref("kmodules.xyz/offshoot-api/api/v1.ContainerRuntimeSettings"),
 						},
 					},
-					"diskCache": {
-						SchemaProps: spec.SchemaProps{
-							Ref: ref("kmodules.xyz/offshoot-api/api/v1.CacheSettings"),
-						},
-					},
-					"processScheduling": {
-						SchemaProps: spec.SchemaProps{
-							Ref: ref("kmodules.xyz/offshoot-api/api/v1.ProcessSchedulingSettings"),
-						},
-					},
 				},
 			},
 		},
 		Dependencies: []string{
-			"kmodules.xyz/offshoot-api/api/v1.CacheSettings", "kmodules.xyz/offshoot-api/api/v1.ContainerRuntimeSettings", "kmodules.xyz/offshoot-api/api/v1.PodRuntimeSettings", "kmodules.xyz/offshoot-api/api/v1.ProcessSchedulingSettings"},
+			"kmodules.xyz/offshoot-api/api/v1.ContainerRuntimeSettings", "kmodules.xyz/offshoot-api/api/v1.PodRuntimeSettings"},
 	}
 }
 
