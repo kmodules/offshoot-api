@@ -2,7 +2,7 @@
 github.com/PuerkitoBio/purell
 # github.com/PuerkitoBio/urlesc v0.0.0-20170810143723-de5bf2ad4578
 github.com/PuerkitoBio/urlesc
-# github.com/appscode/go v0.0.0-20190424183524-60025f1135c9
+# github.com/appscode/go v0.0.0-20190621064509-6b292c9166e3
 github.com/appscode/go/types
 # github.com/davecgh/go-spew v1.1.1
 github.com/davecgh/go-spew/spew
@@ -50,19 +50,19 @@ github.com/modern-go/concurrent
 github.com/modern-go/reflect2
 # github.com/pkg/errors v0.8.1
 github.com/pkg/errors
-# golang.org/x/crypto v0.0.0-20190422183909-d864b10871cd
+# golang.org/x/crypto v0.0.0-20190605123033-f99c8df09eb5
 golang.org/x/crypto/ssh/terminal
-# golang.org/x/net v0.0.0-20190503192946-f4e77d36d62c
+# golang.org/x/net v0.0.0-20190620200207-3b0461eec859
 golang.org/x/net/idna
 golang.org/x/net/http2
 golang.org/x/net/http/httpguts
 golang.org/x/net/http2/hpack
 golang.org/x/net/context/ctxhttp
 golang.org/x/net/context
-# golang.org/x/oauth2 v0.0.0-20190402181905-9f3314589c9a
+# golang.org/x/oauth2 v0.0.0-20190604053449-0f29369cfe45
 golang.org/x/oauth2
 golang.org/x/oauth2/internal
-# golang.org/x/sys v0.0.0-20190507160741-ecd444e8653b
+# golang.org/x/sys v0.0.0-20190624142023-c5567b49c5d0
 golang.org/x/sys/unix
 golang.org/x/sys/windows
 # golang.org/x/text v0.3.2
@@ -73,7 +73,7 @@ golang.org/x/text/unicode/bidi
 golang.org/x/text/transform
 # golang.org/x/time v0.0.0-20190308202827-9d24e82272b4
 golang.org/x/time/rate
-# google.golang.org/appengine v1.5.0
+# google.golang.org/appengine v1.6.1
 google.golang.org/appengine/urlfetch
 google.golang.org/appengine/internal
 google.golang.org/appengine/internal/urlfetch
@@ -130,6 +130,7 @@ k8s.io/apimachinery/pkg/runtime/schema
 k8s.io/apimachinery/pkg/types
 k8s.io/apimachinery/pkg/util/intstr
 k8s.io/apimachinery/pkg/api/errors
+k8s.io/apimachinery/pkg/api/meta
 k8s.io/apimachinery/pkg/util/strategicpatch
 k8s.io/apimachinery/pkg/util/wait
 k8s.io/apimachinery/pkg/conversion
@@ -144,6 +145,7 @@ k8s.io/apimachinery/pkg/util/json
 k8s.io/apimachinery/pkg/util/naming
 k8s.io/apimachinery/pkg/util/sets
 k8s.io/apimachinery/pkg/util/validation/field
+k8s.io/apimachinery/pkg/apis/meta/v1beta1
 k8s.io/apimachinery/pkg/apis/meta/v1/unstructured
 k8s.io/apimachinery/pkg/util/mergepatch
 k8s.io/apimachinery/third_party/forked/golang/json
@@ -158,10 +160,8 @@ k8s.io/apimachinery/pkg/runtime/serializer/json
 k8s.io/apimachinery/pkg/runtime/serializer/protobuf
 k8s.io/apimachinery/pkg/runtime/serializer/recognizer
 k8s.io/apimachinery/pkg/runtime/serializer/versioning
-k8s.io/apimachinery/pkg/api/meta
 k8s.io/apimachinery/pkg/util/framer
 k8s.io/apimachinery/pkg/util/yaml
-k8s.io/apimachinery/pkg/apis/meta/v1beta1
 # k8s.io/client-go v11.0.0+incompatible
 k8s.io/client-go/kubernetes
 k8s.io/client-go/discovery
@@ -224,7 +224,7 @@ k8s.io/kube-openapi/pkg/common
 k8s.io/kube-openapi/pkg/util/proto
 # k8s.io/utils v0.0.0-20190221042446-c2654d5206da => k8s.io/utils v0.0.0-20190221042446-c2654d5206da
 k8s.io/utils/integer
-# kmodules.xyz/client-go v0.0.0-20190524133821-9c8a87771aea
+# kmodules.xyz/client-go v0.0.0-20190715080709-7162a6c90b04
 kmodules.xyz/client-go/core/v1
 kmodules.xyz/client-go
 # sigs.k8s.io/yaml v1.1.0

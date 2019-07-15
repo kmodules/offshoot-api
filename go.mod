@@ -8,15 +8,14 @@ require (
 	github.com/go-openapi/spec v0.19.0
 	github.com/go-openapi/swag v0.19.0 // indirect
 	github.com/mailru/easyjson v0.0.0-20190403194419-1ea4449da983 // indirect
-	golang.org/x/net v0.0.0-20190503192946-f4e77d36d62c // indirect
 	k8s.io/api v0.0.0-20190503110853-61630f889b3c
 	k8s.io/apimachinery v0.0.0-20190508063446-a3da69d3723c // indirect
 	k8s.io/kube-openapi v0.0.0-20190502190224-411b2483e503
-	kmodules.xyz/client-go v0.0.0-20190524133821-9c8a87771aea
+	kmodules.xyz/client-go v0.0.0-20190715080709-7162a6c90b04
 )
 
 replace (
-	github.com/graymeta/stow => github.com/appscode/stow v0.0.0-20190506085026-ca5baa008ea3
+	github.com/Azure/go-autorest => github.com/Azure/go-autorest/autorest v0.5.0
 	k8s.io/api => k8s.io/api v0.0.0-20190313235455-40a48860b5ab
 	k8s.io/apiextensions-apiserver => k8s.io/apiextensions-apiserver v0.0.0-20190315093550-53c4693659ed
 	k8s.io/apimachinery => github.com/kmodules/apimachinery v0.0.0-20190508045248-a52a97a7a2bf
