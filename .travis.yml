@@ -5,14 +5,15 @@ go:
 
 go_import_path: kmodules.xyz/offshoot-api
 
+env:
+  global:
+  - GOFLAGS=-mod=vendor
+  - GO111MODULE=on
+
 cache:
   directories:
   - $HOME/.cache/go-build
   - $GOPATH/pkg/mod
-
-env:
-  global:
-  - GO111MODULE=on
 
 install: true
 
