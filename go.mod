@@ -11,11 +11,15 @@ require (
 	k8s.io/api v0.0.0-20190503110853-61630f889b3c
 	k8s.io/apimachinery v0.0.0-20190508063446-a3da69d3723c // indirect
 	k8s.io/kube-openapi v0.0.0-20190502190224-411b2483e503
-	kmodules.xyz/client-go v0.0.0-20190715080709-7162a6c90b04
+	kmodules.xyz/client-go v0.0.0-20190802200916-043217632b6a
 )
 
 replace (
-	github.com/Azure/go-autorest => github.com/Azure/go-autorest/autorest v0.5.0
+	contrib.go.opencensus.io/exporter/ocagent => contrib.go.opencensus.io/exporter/ocagent v0.3.0
+	github.com/Azure/go-autorest => github.com/Azure/go-autorest v12.3.0+incompatible
+	github.com/census-instrumentation/opencensus-proto => github.com/census-instrumentation/opencensus-proto v0.1.0
+	github.com/golang/protobuf => github.com/golang/protobuf v1.2.0
+	go.opencensus.io => go.opencensus.io v0.21.0
 	k8s.io/api => k8s.io/api v0.0.0-20190313235455-40a48860b5ab
 	k8s.io/apiextensions-apiserver => k8s.io/apiextensions-apiserver v0.0.0-20190315093550-53c4693659ed
 	k8s.io/apimachinery => github.com/kmodules/apimachinery v0.0.0-20190508045248-a52a97a7a2bf
