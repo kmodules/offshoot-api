@@ -17,13 +17,7 @@ SHELL=/bin/bash -o pipefail
 
 GO_PKG   := kmodules.xyz
 REPO     := $(notdir $(shell pwd))
-BIN      := offshoot-api
-
-# Produce CRDs that work back to Kubernetes 1.11 (no version conversion)
-CRD_OPTIONS          ?= "crd:trivialVersions=true"
-# https://github.com/appscodelabs/gengo-builder
-CODE_GENERATOR_IMAGE ?= appscode/gengo:release-1.14
-API_GROUPS           ?= kubedb:v1alpha1 catalog:v1alpha1 config:v1alpha1
+BIN      := client-go
 
 # This version-strategy uses git tags to set the version string
 git_branch       := $(shell git rev-parse --abbrev-ref HEAD)
@@ -49,11 +43,10 @@ endif
 ### These variables should not need tweaking.
 ###
 
-SRC_PKGS := api util
-SRC_DIRS := $(SRC_PKGS) # directories which hold app source (not vendored)
+SRC_DIRS := *.go admissionregistration apiextensions apiregistration apps batch bin certificates core discovery dynamic extensions logs meta openapi policy rbac storage tools 
 
 DOCKER_PLATFORMS := linux/amd64 linux/arm linux/arm64
-BIN_PLATFORMS    := $(DOCKER_PLATFORMS) windows/amd64 darwin/amd64
+BIN_PLATFORMS    := $(DOCKER_PLATFORMS)
 
 # Used internally.  Users should pass GOOS and/or GOARCH.
 OS   := $(if $(GOOS),$(GOOS),$(shell go env GOOS))
@@ -79,6 +72,8 @@ BUILD_DIRS  := bin/$(OS)_$(ARCH)     \
                $(HOME)/.kube         \
                $(HOME)/.minikube
 
+DOCKER_REPO_ROOT := /go/src/$(GO_PKG)/$(REPO)
+
 # If you want to build all binaries, see the 'all-build' rule.
 # If you want to build all containers, see the 'all-container' rule.
 # If you want to build AND push all containers, see the 'all-push' rule.
@@ -103,45 +98,9 @@ version:
 	@echo commit_hash=$(commit_hash)
 	@echo commit_timestamp=$(commit_timestamp)
 
-DOCKER_REPO_ROOT := /go/src/$(GO_PKG)/$(REPO)
-
-# Generate a typed clientset
-.PHONY: clientset
-clientset:
-	@docker run --rm	                                 \
-		-u $$(id -u):$$(id -g)                           \
-		-v /tmp:/.cache                                  \
-		-v $$(pwd):$(DOCKER_REPO_ROOT)                   \
-		-w $(DOCKER_REPO_ROOT)                           \
-		--env HTTP_PROXY=$(HTTP_PROXY)                   \
-		--env HTTPS_PROXY=$(HTTPS_PROXY)                 \
-		$(CODE_GENERATOR_IMAGE)                          \
-		deepcopy-gen                                     \
-			--go-header-file "./hack/license/go.txt"     \
-			--input-dirs "$(GO_PKG)/$(REPO)/api/v1"      \
-			--output-file-base zz_generated.deepcopy
-
-# Generate openapi schema
-.PHONY: openapi
-openapi:
-	@echo "Generating openapi schema"
-	@docker run --rm	                                 \
-		-u $$(id -u):$$(id -g)                           \
-		-v /tmp:/.cache                                  \
-		-v $$(pwd):$(DOCKER_REPO_ROOT)                   \
-		-w $(DOCKER_REPO_ROOT)                           \
-		--env HTTP_PROXY=$(HTTP_PROXY)                   \
-		--env HTTPS_PROXY=$(HTTPS_PROXY)                 \
-		$(CODE_GENERATOR_IMAGE)                          \
-		openapi-gen                                      \
-			--v 1 --logtostderr                          \
-			--go-header-file "./hack/license/go.txt"     \
-			--input-dirs "$(GO_PKG)/$(REPO)/api/v1"      \
-			--output-package "$(GO_PKG)/$(REPO)/api/v1"  \
-			--report-filename /tmp/violation_exceptions.list
-
 .PHONY: gen
-gen: clientset openapi
+gen:
+	@true
 
 fmt: $(BUILD_DIRS)
 	@docker run                                                 \
@@ -157,7 +116,7 @@ fmt: $(BUILD_DIRS)
 	    --env HTTPS_PROXY=$(HTTPS_PROXY)                        \
 	    $(BUILD_IMAGE)                                          \
 	    /bin/bash -c "                                          \
-	        REPO_PKG=$(GO_PKG)                                  \
+	        REPO_PKG=$(GO_PKG)/$(REPO)                          \
 	        ./hack/fmt.sh $(SRC_DIRS)                           \
 	    "
 
@@ -191,10 +150,7 @@ $(OUTBIN): $(BUILD_DIRS)
 	    "
 	@echo
 
-.PHONY: test
-test: unit-tests
-
-unit-tests: $(BUILD_DIRS)
+test: $(BUILD_DIRS)
 	@docker run                                                 \
 	    -i                                                      \
 	    --rm                                                    \
@@ -255,7 +211,7 @@ verify-modules:
 .PHONY: verify-gen
 verify-gen: gen fmt
 	@if !(git diff --exit-code HEAD); then \
-		echo "generated files are out of date, run make gen"; exit 1; \
+		echo "file formatting is out of date, run make gen fmt"; exit 1; \
 	fi
 
 .PHONY: add-license
@@ -269,7 +225,7 @@ add-license:
 		--env HTTP_PROXY=$(HTTP_PROXY)                   \
 		--env HTTPS_PROXY=$(HTTPS_PROXY)                 \
 		$(BUILD_IMAGE)                                   \
-		ltag -t "./hack/license" --excludes "vendor contrib probe" -v
+		ltag -t "./hack/license" --excludes "vendor contrib apiextensions controller" -v
 
 .PHONY: check-license
 check-license:
@@ -282,10 +238,10 @@ check-license:
 		--env HTTP_PROXY=$(HTTP_PROXY)                   \
 		--env HTTPS_PROXY=$(HTTPS_PROXY)                 \
 		$(BUILD_IMAGE)                                   \
-		ltag -t "./hack/license" --excludes "vendor contrib probe" --check -v
+		ltag -t "./hack/license" --excludes "vendor contrib" --check -v
 
 .PHONY: ci
-ci: verify check-license lint build unit-tests #cover
+ci: verify lint build test #cover
 
 .PHONY: clean
 clean:
