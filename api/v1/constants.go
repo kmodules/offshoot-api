@@ -14,6 +14,10 @@ See the License for the specific language governing permissions and
 limitations under the License.
 */
 
-// +k8s:deepcopy-gen=package
-// +k8s:openapi-gen=true
-package v1 // import "kmodules.xyz/offshoot-api/api/v1"
+package v1
+
+const (
+	NiceAdjustment  = "NICE_ADJUSTMENT"
+	IONiceClass     = "IONICE_CLASS"
+	IONiceClassData = "IONICE_CLASS_DATA"
+)
