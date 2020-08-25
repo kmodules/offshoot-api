@@ -158,6 +158,10 @@ type PodSpec struct {
 	// Cannot be updated.
 	// +optional
 	Lifecycle *core.Lifecycle `json:"lifecycle,omitempty" protobuf:"bytes,16,opt,name=lifecycle"`
+	// DnsPolicy
+	DnsPolicy string `json:"dnsPolicy,omitempty" protobuf:"bytes,17,opt,name=dnsPolicy"`
+	// HostNetwork
+	HostNetwork string `json:"hostNetwork,omitempty" protobuf:"bytes,18,opt,name=hostNetwork"`
 }
 
 // ServiceTemplateSpec describes the data a service should have when created from a template
