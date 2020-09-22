@@ -1,5 +1,5 @@
 /*
-Copyright The Kmodules Authors.
+Copyright AppsCode Inc. and Contributors
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -23,22 +23,23 @@ import (
 
 	"github.com/golang/glog"
 	"github.com/pkg/errors"
-	"gomodules.xyz/version"
 	core "k8s.io/api/core/v1"
 	kerr "k8s.io/apimachinery/pkg/api/errors"
 	"k8s.io/apimachinery/pkg/api/meta"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime"
+	"k8s.io/apimachinery/pkg/runtime/schema"
 	"k8s.io/apimachinery/pkg/types"
 	"k8s.io/apimachinery/pkg/util/sets"
 	"k8s.io/apimachinery/pkg/util/strategicpatch"
 	"k8s.io/apimachinery/pkg/util/wait"
 	"k8s.io/client-go/kubernetes"
+	"k8s.io/client-go/metadata"
 	"k8s.io/client-go/tools/pager"
 	kutil "kmodules.xyz/client-go"
 )
 
-func CreateOrPatchNode(ctx context.Context, c kubernetes.Interface, meta metav1.ObjectMeta, transform func(*core.Node) *core.Node) (*core.Node, kutil.VerbType, error) {
+func CreateOrPatchNode(ctx context.Context, c kubernetes.Interface, meta metav1.ObjectMeta, transform func(*core.Node) *core.Node, opts metav1.PatchOptions) (*core.Node, kutil.VerbType, error) {
 	cur, err := c.CoreV1().Nodes().Get(ctx, meta.Name, metav1.GetOptions{})
 	if kerr.IsNotFound(err) {
 		glog.V(3).Infof("Creating Node %s", meta.Name)
@@ -48,19 +49,22 @@ func CreateOrPatchNode(ctx context.Context, c kubernetes.Interface, meta metav1.
 				APIVersion: core.SchemeGroupVersion.String(),
 			},
 			ObjectMeta: meta,
-		}), metav1.CreateOptions{})
+		}), metav1.CreateOptions{
+			DryRun:       opts.DryRun,
+			FieldManager: opts.FieldManager,
+		})
 		return out, kutil.VerbCreated, err
 	} else if err != nil {
 		return nil, kutil.VerbUnchanged, err
 	}
-	return PatchNode(ctx, c, cur, transform)
+	return PatchNode(ctx, c, cur, transform, opts)
 }
 
-func PatchNode(ctx context.Context, c kubernetes.Interface, cur *core.Node, transform func(*core.Node) *core.Node) (*core.Node, kutil.VerbType, error) {
-	return PatchNodeObject(ctx, c, cur, transform(cur.DeepCopy()))
+func PatchNode(ctx context.Context, c kubernetes.Interface, cur *core.Node, transform func(*core.Node) *core.Node, opts metav1.PatchOptions) (*core.Node, kutil.VerbType, error) {
+	return PatchNodeObject(ctx, c, cur, transform(cur.DeepCopy()), opts)
 }
 
-func PatchNodeObject(ctx context.Context, c kubernetes.Interface, cur, mod *core.Node) (*core.Node, kutil.VerbType, error) {
+func PatchNodeObject(ctx context.Context, c kubernetes.Interface, cur, mod *core.Node, opts metav1.PatchOptions) (*core.Node, kutil.VerbType, error) {
 	curJson, err := json.Marshal(cur)
 	if err != nil {
 		return nil, kutil.VerbUnchanged, err
@@ -79,11 +83,11 @@ func PatchNodeObject(ctx context.Context, c kubernetes.Interface, cur, mod *core
 		return cur, kutil.VerbUnchanged, nil
 	}
 	glog.V(3).Infof("Patching Node %s with %s", cur.Name, string(patch))
-	out, err := c.CoreV1().Nodes().Patch(ctx, cur.Name, types.StrategicMergePatchType, patch, metav1.PatchOptions{})
+	out, err := c.CoreV1().Nodes().Patch(ctx, cur.Name, types.StrategicMergePatchType, patch, opts)
 	return out, kutil.VerbPatched, err
 }
 
-func TryUpdateNode(ctx context.Context, c kubernetes.Interface, meta metav1.ObjectMeta, transform func(*core.Node) *core.Node) (result *core.Node, err error) {
+func TryUpdateNode(ctx context.Context, c kubernetes.Interface, meta metav1.ObjectMeta, transform func(*core.Node) *core.Node, opts metav1.UpdateOptions) (result *core.Node, err error) {
 	attempt := 0
 	err = wait.PollImmediate(kutil.RetryInterval, kutil.RetryTimeout, func() (bool, error) {
 		attempt++
@@ -91,7 +95,7 @@ func TryUpdateNode(ctx context.Context, c kubernetes.Interface, meta metav1.Obje
 		if kerr.IsNotFound(e2) {
 			return false, e2
 		} else if e2 == nil {
-			result, e2 = c.CoreV1().Nodes().Update(ctx, transform(cur.DeepCopy()), metav1.UpdateOptions{})
+			result, e2 = c.CoreV1().Nodes().Update(ctx, transform(cur.DeepCopy()), opts)
 			return e2 == nil, nil
 		}
 		glog.Errorf("Attempt %d failed to update Node %s due to %v.", attempt, cur.Name, e2)
@@ -196,38 +200,22 @@ func (t Topology) convertWeightedPodAffinityTerm(terms []core.WeightedPodAffinit
 	}
 }
 
-func DetectTopology(ctx context.Context, kc kubernetes.Interface) (*Topology, error) {
-	// TODO: Use https://github.com/kubernetes/client-go/blob/kubernetes-1.17.0/metadata/interface.go once upgraded to 1.17
-
+func DetectTopology(ctx context.Context, mc metadata.Interface) (*Topology, error) {
 	var topology Topology
-
-	info, err := kc.Discovery().ServerVersion()
-	if err != nil {
-		return nil, err
-	}
-	ver, err := version.NewVersion(info.GitVersion)
-	if err != nil {
-		return nil, err
-	}
-	ver = ver.ToMutator().ResetPrerelease().ResetMetadata().Done()
-	if ver.Major() >= 1 && ver.Minor() >= 17 {
-		topology.LabelZone = "topology.kubernetes.io/zone"
-		topology.LabelRegion = "topology.kubernetes.io/region"
-		topology.LabelInstanceType = "node.kubernetes.io/instance-type"
-	} else {
-		topology.LabelZone = core.LabelZoneFailureDomain
-		topology.LabelRegion = core.LabelZoneRegion
-		topology.LabelInstanceType = core.LabelInstanceType
-	}
 	topology.TotalNodes = 0
 
 	mapRegion := make(map[string]sets.String)
 	instances := make(map[string]int)
+	first := true
 
+	nc := mc.Resource(schema.GroupVersionResource{
+		Version:  "v1",
+		Resource: "nodes",
+	})
 	lister := pager.New(pager.SimplePageFunc(func(opts metav1.ListOptions) (runtime.Object, error) {
-		return kc.CoreV1().Nodes().List(ctx, opts)
+		return nc.List(ctx, opts)
 	}))
-	err = lister.EachListItem(context.Background(), metav1.ListOptions{Limit: 100}, func(obj runtime.Object) error {
+	err := lister.EachListItem(context.Background(), metav1.ListOptions{}, func(obj runtime.Object) error {
 		topology.TotalNodes++
 
 		m, err := meta.Accessor(obj)
@@ -235,25 +223,47 @@ func DetectTopology(ctx context.Context, kc kubernetes.Interface) (*Topology, er
 			return err
 		}
 
-		annotations := m.GetAnnotations()
+		labels := m.GetLabels()
 
-		os, _ := meta_util.GetStringValueForKeys(annotations, "kubernetes.io/os", "beta.kubernetes.io/os")
+		if first {
+			if _, ok := labels[core.LabelZoneRegionStable]; ok {
+				topology.LabelRegion = core.LabelZoneRegionStable
+			} else {
+				topology.LabelRegion = core.LabelZoneRegion
+			}
+
+			if _, ok := labels[core.LabelZoneFailureDomainStable]; ok {
+				topology.LabelZone = core.LabelZoneFailureDomainStable
+			} else {
+				topology.LabelZone = core.LabelZoneFailureDomain
+			}
+
+			if _, ok := labels[core.LabelInstanceTypeStable]; ok {
+				topology.LabelInstanceType = core.LabelInstanceTypeStable
+			} else {
+				topology.LabelInstanceType = core.LabelInstanceType
+			}
+
+			first = false
+		}
+
+		os, _ := meta_util.GetStringValueForKeys(labels, core.LabelOSStable, "beta.kubernetes.io/os")
 		if os != "linux" {
 			return nil
 		}
-		arch, _ := meta_util.GetStringValueForKeys(annotations, "kubernetes.io/arch", "beta.kubernetes.io/arch")
+		arch, _ := meta_util.GetStringValueForKeys(labels, core.LabelArchStable, "beta.kubernetes.io/arch")
 		if arch != "amd64" {
 			return nil
 		}
 
-		region, _ := meta_util.GetStringValueForKeys(annotations, "topology.kubernetes.io/region", "failure-domain.beta.kubernetes.io/region")
-		zone, _ := meta_util.GetStringValueForKeys(annotations, "topology.kubernetes.io/zone", "failure-domain.beta.kubernetes.io/zone")
+		region, _ := meta_util.GetStringValueForKeys(labels, topology.LabelRegion)
+		zone, _ := meta_util.GetStringValueForKeys(labels, topology.LabelZone)
 		if _, ok := mapRegion[region]; !ok {
 			mapRegion[region] = sets.NewString()
 		}
 		mapRegion[region].Insert(zone)
 
-		instance, _ := meta_util.GetStringValueForKeys(annotations, "node.kubernetes.io/instance-type", "beta.kubernetes.io/instance-type")
+		instance, _ := meta_util.GetStringValueForKeys(labels, topology.LabelInstanceType)
 		if n, ok := instances[instance]; ok {
 			instances[instance] = n + 1
 		} else {
