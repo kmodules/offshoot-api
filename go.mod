@@ -5,11 +5,10 @@ go 1.12
 require (
 	github.com/go-openapi/spec v0.19.3
 	github.com/gogo/protobuf v1.3.1
-	github.com/mattn/go-isatty v0.0.9 // indirect
 	k8s.io/api v0.18.9
 	k8s.io/apimachinery v0.18.9
 	k8s.io/kube-openapi v0.0.0-20200410145947-61e04a5be9a6
-	kmodules.xyz/client-go v0.0.0-20201027113349-01a6d453d836
+	kmodules.xyz/client-go v0.0.0-20201105071625-0b277310b9b8
 )
 
 replace bitbucket.org/ww/goautoneg => gomodules.xyz/goautoneg v0.0.0-20120707110453-a547fc61f48d
