@@ -715,7 +715,8 @@ func schema_kmodulesxyz_offshoot_api_api_v1_PodSpec(ref common.ReferenceCallback
 					},
 					"container": {
 						SchemaProps: spec.SchemaProps{
-							Ref: ref("kmodules.xyz/offshoot-api/api/v1.ContainerTemplate"),
+							Default: map[string]interface{}{},
+							Ref:     ref("kmodules.xyz/offshoot-api/api/v1.ContainerTemplate"),
 						},
 					},
 				},
