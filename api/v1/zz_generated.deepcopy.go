@@ -395,11 +395,7 @@ func (in *PodSpec) DeepCopyInto(out *PodSpec) {
 			(*in)[i].DeepCopyInto(&(*out)[i])
 		}
 	}
-	if in.Container != nil {
-		in, out := &in.Container, &out.Container
-		*out = new(ContainerTemplate)
-		(*in).DeepCopyInto(*out)
-	}
+	in.Container.DeepCopyInto(&out.Container)
 	return
 }
 
