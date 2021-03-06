@@ -165,7 +165,8 @@ type PodSpec struct {
 	// Application (database) Container Specific Settings //
 	////////////////////////////////////////////////////////
 
-	Container *ContainerTemplate `json:"container,omitempty" protobuf:"bytes,17,opt,name=container"`
+	// +optional
+	Container ContainerTemplate `json:"container" protobuf:"bytes,17,opt,name=container"`
 }
 
 type ContainerTemplate struct {
