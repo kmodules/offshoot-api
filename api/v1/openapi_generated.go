@@ -669,7 +669,7 @@ func schema_kmodulesxyz_offshoot_api_api_v1_PodSpec(ref common.ReferenceCallback
 					},
 					"resources": {
 						SchemaProps: spec.SchemaProps{
-							Description: "Compute Resources required by the sidecar container. Deprecated",
+							Description: "Compute Resources required by the sidecar container.",
 							Default:     map[string]interface{}{},
 							Ref:         ref("k8s.io/api/core/v1.ResourceRequirements"),
 						},
