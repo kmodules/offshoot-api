@@ -5,9 +5,14 @@ go 1.15
 require (
 	github.com/go-openapi/spec v0.19.5
 	github.com/gogo/protobuf v1.3.2
+	github.com/imdario/mergo v0.3.6 // indirect
+	github.com/onsi/gomega v1.8.1 // indirect
+	gomodules.xyz/pointer v0.0.0-20201105071923-daf60fa55209 // indirect
+	google.golang.org/appengine v1.6.5 // indirect
 	k8s.io/api v0.21.0
 	k8s.io/apimachinery v0.21.0
 	k8s.io/kube-openapi v0.0.0-20210305001622-591a79e4bda7
+	k8s.io/utils v0.0.0-20210111153108-fddb29f9d009 // indirect
 	kmodules.xyz/client-go v0.0.0-20210504024435-1eb80721e9b8
 )
 
