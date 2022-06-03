@@ -83,11 +83,7 @@ func (c *CompressingResponseWriter) Hijack() (net.Conn, *bufio.ReadWriter, error
 }
 
 // WantsCompressedResponse reads the Accept-Encoding header to see if and which encoding is requested.
-// It also inspects the httpWriter whether its content-encoding is already set (non-empty).
-func wantsCompressedResponse(httpRequest *http.Request, httpWriter http.ResponseWriter) (bool, string) {
-	if contentEncoding := httpWriter.Header().Get(HEADER_ContentEncoding); contentEncoding != "" {
-		return false, ""
-	}
+func wantsCompressedResponse(httpRequest *http.Request) (bool, string) {
 	header := httpRequest.Header.Get(HEADER_AcceptEncoding)
 	gi := strings.Index(header, ENCODING_GZIP)
 	zi := strings.Index(header, ENCODING_DEFLATE)

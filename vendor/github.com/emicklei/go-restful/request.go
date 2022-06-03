@@ -13,10 +13,10 @@ var defaultRequestContentType string
 
 // Request is a wrapper for a http Request that provides convenience methods
 type Request struct {
-	Request        *http.Request
-	pathParameters map[string]string
-	attributes     map[string]interface{} // for storing request-scoped values
-	selectedRoute  *Route                 // is nil when no route was matched
+	Request           *http.Request
+	pathParameters    map[string]string
+	attributes        map[string]interface{} // for storing request-scoped values
+	selectedRoutePath string                 // root path + route path that matched the request, e.g. /meetings/{id}/attendees
 }
 
 func NewRequest(httpRequest *http.Request) *Request {
@@ -113,20 +113,6 @@ func (r Request) Attribute(name string) interface{} {
 }
 
 // SelectedRoutePath root path + route path that matched the request, e.g. /meetings/{id}/attendees
-// If no route was matched then return an empty string.
 func (r Request) SelectedRoutePath() string {
-	if r.selectedRoute == nil {
-		return ""
-	}
-	// skip creating an accessor
-	return r.selectedRoute.Path
-}
-
-// SelectedRoute returns a reader to access the selected Route by the container
-// Returns nil if no route was matched.
-func (r Request) SelectedRoute() RouteReader {
-	if r.selectedRoute == nil {
-		return nil
-	}
-	return routeAccessor{route: r.selectedRoute}
+	return r.selectedRoutePath
 }

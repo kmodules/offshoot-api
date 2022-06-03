@@ -6,11 +6,9 @@ package restful
 
 // FilterChain is a request scoped object to process one or more filters before calling the target RouteFunction.
 type FilterChain struct {
-	Filters       []FilterFunction // ordered list of FilterFunction
-	Index         int              // index into filters that is currently in progress
-	Target        RouteFunction    // function to call after passing all filters
-	ParameterDocs []*Parameter     // the parameter docs for the route
-	Operation     string           // the name of the operation
+	Filters []FilterFunction // ordered list of FilterFunction
+	Index   int              // index into filters that is currently in progress
+	Target  RouteFunction    // function to call after passing all filters
 }
 
 // ProcessFilter passes the request,response pair through the next of Filters.

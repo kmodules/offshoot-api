@@ -1,10 +1,10 @@
 # github.com/davecgh/go-spew v1.1.1
 ## explicit
 github.com/davecgh/go-spew/spew
-# github.com/emicklei/go-restful/v3 v3.7.5-0.20220308211933-7c971ca4d0fd
-## explicit; go 1.13
-github.com/emicklei/go-restful/v3
-github.com/emicklei/go-restful/v3/log
+# github.com/emicklei/go-restful v2.9.5+incompatible
+## explicit
+github.com/emicklei/go-restful
+github.com/emicklei/go-restful/log
 # github.com/evanphx/json-patch v4.12.0+incompatible
 ## explicit
 github.com/evanphx/json-patch
@@ -396,7 +396,7 @@ k8s.io/klog/v2/internal/buffer
 k8s.io/klog/v2/internal/clock
 k8s.io/klog/v2/internal/serialize
 k8s.io/klog/v2/internal/severity
-# k8s.io/kube-openapi v0.0.0-20220603121420-31174f50af60
+# k8s.io/kube-openapi v0.0.0-20220413171646-5e7f5fdc6da6
 ## explicit; go 1.16
 k8s.io/kube-openapi/pkg/builder3/util
 k8s.io/kube-openapi/pkg/common
