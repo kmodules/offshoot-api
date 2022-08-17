@@ -117,6 +117,12 @@ type PodRuntimeSettings struct {
 	// +listMapKey=topologyKey
 	// +listMapKey=whenUnsatisfiable
 	TopologySpreadConstraints []core.TopologySpreadConstraint `json:"topologySpreadConstraints,omitempty" patchStrategy:"merge" patchMergeKey:"topologyKey" protobuf:"bytes,17,rep,name=topologySpreadConstraints"`
+	// List of containers added as sidecar to application pod.
+	// Containers cannot currently be added or removed.
+	// +optional
+	// +patchMergeKey=name
+	// +patchStrategy=merge
+	Sidecars []core.Container `json:"sidecars,omitempty" patchStrategy:"merge" patchMergeKey:"name" protobuf:"bytes,18,rep,name=sidecars"`
 }
 
 type ContainerRuntimeSettings struct {

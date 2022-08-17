@@ -307,6 +307,13 @@ message PodRuntimeSettings {
   // +listMapKey=topologyKey
   // +listMapKey=whenUnsatisfiable
   repeated k8s.io.api.core.v1.TopologySpreadConstraint topologySpreadConstraints = 17;
+
+  // List of containers added as sidecar to application pod.
+  // Containers cannot currently be added or removed.
+  // +optional
+  // +patchMergeKey=name
+  // +patchStrategy=merge
+  repeated k8s.io.api.core.v1.Container sidecars = 18;
 }
 
 message PodSpec {
