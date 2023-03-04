@@ -428,7 +428,7 @@ k8s.io/utils/integer
 k8s.io/utils/internal/third_party/forked/golang/net
 k8s.io/utils/net
 k8s.io/utils/strings/slices
-# kmodules.xyz/client-go v0.25.0
+# kmodules.xyz/client-go v0.25.10
 ## explicit; go 1.18
 kmodules.xyz/client-go
 kmodules.xyz/client-go/core/v1
