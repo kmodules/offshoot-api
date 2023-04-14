@@ -30,19 +30,20 @@ import (
 
 func GetOpenAPIDefinitions(ref common.ReferenceCallback) map[string]common.OpenAPIDefinition {
 	return map[string]common.OpenAPIDefinition{
-		"kmodules.xyz/offshoot-api/api/v1.ContainerRuntimeSettings": schema_kmodulesxyz_offshoot_api_api_v1_ContainerRuntimeSettings(ref),
-		"kmodules.xyz/offshoot-api/api/v1.IONiceSettings":           schema_kmodulesxyz_offshoot_api_api_v1_IONiceSettings(ref),
-		"kmodules.xyz/offshoot-api/api/v1.NiceSettings":             schema_kmodulesxyz_offshoot_api_api_v1_NiceSettings(ref),
-		"kmodules.xyz/offshoot-api/api/v1.ObjectMeta":               schema_kmodulesxyz_offshoot_api_api_v1_ObjectMeta(ref),
-		"kmodules.xyz/offshoot-api/api/v1.PartialObjectMeta":        schema_kmodulesxyz_offshoot_api_api_v1_PartialObjectMeta(ref),
-		"kmodules.xyz/offshoot-api/api/v1.PersistentVolumeClaim":    schema_kmodulesxyz_offshoot_api_api_v1_PersistentVolumeClaim(ref),
-		"kmodules.xyz/offshoot-api/api/v1.PodRuntimeSettings":       schema_kmodulesxyz_offshoot_api_api_v1_PodRuntimeSettings(ref),
-		"kmodules.xyz/offshoot-api/api/v1.PodSpec":                  schema_kmodulesxyz_offshoot_api_api_v1_PodSpec(ref),
-		"kmodules.xyz/offshoot-api/api/v1.PodTemplateSpec":          schema_kmodulesxyz_offshoot_api_api_v1_PodTemplateSpec(ref),
-		"kmodules.xyz/offshoot-api/api/v1.RuntimeSettings":          schema_kmodulesxyz_offshoot_api_api_v1_RuntimeSettings(ref),
-		"kmodules.xyz/offshoot-api/api/v1.ServicePort":              schema_kmodulesxyz_offshoot_api_api_v1_ServicePort(ref),
-		"kmodules.xyz/offshoot-api/api/v1.ServiceSpec":              schema_kmodulesxyz_offshoot_api_api_v1_ServiceSpec(ref),
-		"kmodules.xyz/offshoot-api/api/v1.ServiceTemplateSpec":      schema_kmodulesxyz_offshoot_api_api_v1_ServiceTemplateSpec(ref),
+		"kmodules.xyz/offshoot-api/api/v1.ContainerRuntimeSettings":      schema_kmodulesxyz_offshoot_api_api_v1_ContainerRuntimeSettings(ref),
+		"kmodules.xyz/offshoot-api/api/v1.IONiceSettings":                schema_kmodulesxyz_offshoot_api_api_v1_IONiceSettings(ref),
+		"kmodules.xyz/offshoot-api/api/v1.NiceSettings":                  schema_kmodulesxyz_offshoot_api_api_v1_NiceSettings(ref),
+		"kmodules.xyz/offshoot-api/api/v1.ObjectMeta":                    schema_kmodulesxyz_offshoot_api_api_v1_ObjectMeta(ref),
+		"kmodules.xyz/offshoot-api/api/v1.PartialObjectMeta":             schema_kmodulesxyz_offshoot_api_api_v1_PartialObjectMeta(ref),
+		"kmodules.xyz/offshoot-api/api/v1.PersistentVolumeClaim":         schema_kmodulesxyz_offshoot_api_api_v1_PersistentVolumeClaim(ref),
+		"kmodules.xyz/offshoot-api/api/v1.PersistentVolumeClaimTemplate": schema_kmodulesxyz_offshoot_api_api_v1_PersistentVolumeClaimTemplate(ref),
+		"kmodules.xyz/offshoot-api/api/v1.PodRuntimeSettings":            schema_kmodulesxyz_offshoot_api_api_v1_PodRuntimeSettings(ref),
+		"kmodules.xyz/offshoot-api/api/v1.PodSpec":                       schema_kmodulesxyz_offshoot_api_api_v1_PodSpec(ref),
+		"kmodules.xyz/offshoot-api/api/v1.PodTemplateSpec":               schema_kmodulesxyz_offshoot_api_api_v1_PodTemplateSpec(ref),
+		"kmodules.xyz/offshoot-api/api/v1.RuntimeSettings":               schema_kmodulesxyz_offshoot_api_api_v1_RuntimeSettings(ref),
+		"kmodules.xyz/offshoot-api/api/v1.ServicePort":                   schema_kmodulesxyz_offshoot_api_api_v1_ServicePort(ref),
+		"kmodules.xyz/offshoot-api/api/v1.ServiceSpec":                   schema_kmodulesxyz_offshoot_api_api_v1_ServiceSpec(ref),
+		"kmodules.xyz/offshoot-api/api/v1.ServiceTemplateSpec":           schema_kmodulesxyz_offshoot_api_api_v1_ServiceTemplateSpec(ref),
 	}
 }
 
@@ -361,6 +362,36 @@ func schema_kmodulesxyz_offshoot_api_api_v1_PersistentVolumeClaim(ref common.Ref
 		},
 		Dependencies: []string{
 			"k8s.io/api/core/v1.PersistentVolumeClaimSpec", "k8s.io/api/core/v1.PersistentVolumeClaimStatus", "kmodules.xyz/offshoot-api/api/v1.PartialObjectMeta"},
+	}
+}
+
+func schema_kmodulesxyz_offshoot_api_api_v1_PersistentVolumeClaimTemplate(ref common.ReferenceCallback) common.OpenAPIDefinition {
+	return common.OpenAPIDefinition{
+		Schema: spec.Schema{
+			SchemaProps: spec.SchemaProps{
+				Description: "PersistentVolumeClaimTemplate is used to produce PersistentVolumeClaim objects as part of an EphemeralVolumeSource.",
+				Type:        []string{"object"},
+				Properties: map[string]spec.Schema{
+					"metadata": {
+						SchemaProps: spec.SchemaProps{
+							Description: "May contain labels and annotations that will be copied into the PVC when creating it. No other fields are allowed and will be rejected during validation.",
+							Default:     map[string]interface{}{},
+							Ref:         ref("kmodules.xyz/offshoot-api/api/v1.PartialObjectMeta"),
+						},
+					},
+					"spec": {
+						SchemaProps: spec.SchemaProps{
+							Description: "The specification for the PersistentVolumeClaim. The entire content is copied unchanged into the PVC that gets created from this template. The same fields as in a PersistentVolumeClaim are also valid here.",
+							Default:     map[string]interface{}{},
+							Ref:         ref("k8s.io/api/core/v1.PersistentVolumeClaimSpec"),
+						},
+					},
+				},
+				Required: []string{"spec"},
+			},
+		},
+		Dependencies: []string{
+			"k8s.io/api/core/v1.PersistentVolumeClaimSpec", "kmodules.xyz/offshoot-api/api/v1.PartialObjectMeta"},
 	}
 }
 

@@ -202,6 +202,23 @@ message PersistentVolumeClaim {
   optional k8s.io.api.core.v1.PersistentVolumeClaimStatus status = 3;
 }
 
+// PersistentVolumeClaimTemplate is used to produce
+// PersistentVolumeClaim objects as part of an EphemeralVolumeSource.
+message PersistentVolumeClaimTemplate {
+  // May contain labels and annotations that will be copied into the PVC
+  // when creating it. No other fields are allowed and will be rejected during
+  // validation.
+  //
+  // +optional
+  optional PartialObjectMeta metadata = 1;
+
+  // The specification for the PersistentVolumeClaim. The entire content is
+  // copied unchanged into the PVC that gets created from this
+  // template. The same fields as in a PersistentVolumeClaim
+  // are also valid here.
+  optional k8s.io.api.core.v1.PersistentVolumeClaimSpec spec = 2;
+}
+
 message PodRuntimeSettings {
   // PodAnnotations are the annotations that will be attached with the respective Pod
   // +optional
