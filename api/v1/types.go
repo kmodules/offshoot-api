@@ -178,7 +178,7 @@ type PodSpec struct {
 	// +optional
 	// +patchMergeKey=name
 	// +patchStrategy=merge,retainKeys
-	Volumes []core.Volume `json:"volumes,omitempty" patchStrategy:"merge,retainKeys" patchMergeKey:"name" protobuf:"bytes,18,rep,name=volumes"`
+	Volumes []Volume `json:"volumes,omitempty" patchStrategy:"merge,retainKeys" patchMergeKey:"name" protobuf:"bytes,18,rep,name=volumes"`
 
 	// List of initialization containers belonging to the pod.
 	// Init containers are executed in order prior to containers being started. If any
