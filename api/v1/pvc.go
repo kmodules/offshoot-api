@@ -123,3 +123,37 @@ func (in *PersistentVolumeClaim) ToCorePVC() *core.PersistentVolumeClaim {
 		Status: in.Status,
 	}
 }
+
+// PersistentVolumeClaimTemplate is used to produce
+// PersistentVolumeClaim objects as part of an EphemeralVolumeSource.
+type PersistentVolumeClaimTemplate struct {
+	// May contain labels and annotations that will be copied into the PVC
+	// when creating it. No other fields are allowed and will be rejected during
+	// validation.
+	//
+	// +optional
+	PartialObjectMeta `json:"metadata,omitempty" protobuf:"bytes,1,opt,name=metadata"`
+
+	// The specification for the PersistentVolumeClaim. The entire content is
+	// copied unchanged into the PVC that gets created from this
+	// template. The same fields as in a PersistentVolumeClaim
+	// are also valid here.
+	Spec core.PersistentVolumeClaimSpec `json:"spec" protobuf:"bytes,2,name=spec"`
+}
+
+func (in *PersistentVolumeClaimTemplate) ToAPIObject() *core.PersistentVolumeClaimTemplate {
+	if in == nil {
+		return nil
+	}
+	return &core.PersistentVolumeClaimTemplate{
+		ObjectMeta: metav1.ObjectMeta{
+			Name:            in.Name,
+			GenerateName:    in.GenerateName,
+			Namespace:       in.Namespace,
+			Labels:          in.Labels,
+			Annotations:     in.Annotations,
+			OwnerReferences: in.OwnerReferences,
+		},
+		Spec: in.Spec,
+	}
+}
