@@ -154,7 +154,7 @@ gen-crd-protos:
 			--packages=-k8s.io/api/core/v1,kmodules.xyz/offshoot-api/api/v1
 
 .PHONY: gen
-gen: clientset gen-crd-protos openapi
+gen: clientset openapi
 
 fmt: $(BUILD_DIRS)
 	@docker run                                                 \
