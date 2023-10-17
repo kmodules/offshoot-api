@@ -103,7 +103,8 @@ DOCKER_REPO_ROOT := /go/src/$(GO_PKG)/$(REPO)
 
 # Generate a typed clientset
 .PHONY: clientset
-clientset:
+clientset: clientset_v1 clientset_v2
+clientset_%:
 	@docker run --rm	                                 \
 		-u $$(id -u):$$(id -g)                           \
 		-v /tmp:/.cache                                  \
@@ -113,13 +114,14 @@ clientset:
 		--env HTTPS_PROXY=$(HTTPS_PROXY)                 \
 		$(CODE_GENERATOR_IMAGE)                          \
 		deepcopy-gen                                     \
-			--go-header-file "./hack/license/go.txt"     \
-			--input-dirs "$(GO_PKG)/$(REPO)/api/v1"      \
+			--go-header-file "./hack/license/go.txt"       \
+			--input-dirs "$(GO_PKG)/$(REPO)/api/$*"        \
 			--output-file-base zz_generated.deepcopy
 
 # Generate openapi schema
 .PHONY: openapi
-openapi:
+openapi: openapi_v1 openapi_v2
+openapi_%:
 	@echo "Generating openapi schema"
 	@docker run --rm	                                 \
 		-u $$(id -u):$$(id -g)                           \
@@ -130,10 +132,10 @@ openapi:
 		--env HTTPS_PROXY=$(HTTPS_PROXY)                 \
 		$(CODE_GENERATOR_IMAGE)                          \
 		openapi-gen                                      \
-			--v 1 --logtostderr                          \
-			--go-header-file "./hack/license/go.txt"     \
-			--input-dirs "$(GO_PKG)/$(REPO)/api/v1"      \
-			--output-package "$(GO_PKG)/$(REPO)/api/v1"  \
+			--v 1 --logtostderr                            \
+			--go-header-file "./hack/license/go.txt"       \
+			--input-dirs "$(GO_PKG)/$(REPO)/api/$*"        \
+			--output-package "$(GO_PKG)/$(REPO)/api/$*"    \
 			--report-filename /tmp/violation_exceptions.list
 
 .PHONY: gen-crd-protos
