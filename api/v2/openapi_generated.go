@@ -409,7 +409,6 @@ func schema_kmodulesxyz_offshoot_api_api_v2_PodSpec(ref common.ReferenceCallback
 						},
 					},
 				},
-				Required: []string{"containers"},
 			},
 		},
 		Dependencies: []string{
