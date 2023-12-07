@@ -64,10 +64,8 @@ type PodSpec struct {
 	// +patchMergeKey=name
 	// +patchStrategy=merge
 	InitContainers []core.Container `json:"initContainers,omitempty" patchStrategy:"merge" patchMergeKey:"name"`
-	// List of containers belonging to the pod.
+	// List of sidecar containers belonging to the pod.
 	// Containers cannot currently be added or removed.
-	// There must be at least one container in a Pod.
-	// Cannot be updated.
 	// +patchMergeKey=name
 	// +patchStrategy=merge
 	Containers []core.Container `json:"containers,omitempty" patchStrategy:"merge" patchMergeKey:"name"`
