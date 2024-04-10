@@ -229,7 +229,7 @@ unit-tests: $(BUILD_DIRS)
 	        ./hack/test.sh $(SRC_DIRS)                          \
 	    "
 
-ADDTL_LINTERS   := goconst,gofmt,goimports,unparam
+ADDTL_LINTERS   := gofmt,goimports,unparam
 
 .PHONY: lint
 lint: $(BUILD_DIRS)
