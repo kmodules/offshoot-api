@@ -118,6 +118,12 @@ clientset_%:
 			--input-dirs "$(GO_PKG)/$(REPO)/api/$*"        \
 			--output-file-base zz_generated.deepcopy
 
+.PHONY: gen-conversion
+gen-conversion:
+	@conversion-gen --go-header-file ./hack/license/go.txt \
+	  --input-dirs ./api/v1 \
+	  -O zz_generated.conversion --output-base "$HOME/go/src/"
+
 # Generate openapi schema
 .PHONY: openapi
 openapi: openapi_v1 openapi_v2

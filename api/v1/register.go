@@ -14,8 +14,16 @@ See the License for the specific language governing permissions and
 limitations under the License.
 */
 
-// +k8s:deepcopy-gen=package
-// +k8s:conversion-gen=kmodules.xyz/offshoot-api/api/v2
-// +k8s:openapi-gen=true
-// +gencrdrefdocs:force=true
-package v1 // import "kmodules.xyz/offshoot-api/api/v1"
+package v1
+
+import (
+	"k8s.io/apimachinery/pkg/runtime"
+)
+
+var (
+	// TODO: move SchemeBuilder with zz_generated.deepcopy.go to k8s.io/api.
+	// localSchemeBuilder and AddToScheme will stay in k8s.io/kubernetes.
+	SchemeBuilder      runtime.SchemeBuilder
+	localSchemeBuilder = &SchemeBuilder
+	AddToScheme        = localSchemeBuilder.AddToScheme
+)
