@@ -130,7 +130,6 @@ func Convert_v1_PodSpec_To_v2_PodSpec(in *PodSpec, out *v2.PodSpec, s conversion
 	// manual
 	out.Containers = []core.Container{
 		{
-			Name:            "db",
 			Args:            *(*[]string)(unsafe.Pointer(&in.Args)),
 			Env:             *(*[]core.EnvVar)(unsafe.Pointer(&in.Env)),
 			Resources:       in.Resources,
