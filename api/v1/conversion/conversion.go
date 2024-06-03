@@ -117,6 +117,7 @@ func Convert_v1_PodSpec_To_v2_PodSpec(in *v1.PodSpec, out *v2.PodSpec, s convers
 	out.SecurityContext = (*core.PodSecurityContext)(unsafe.Pointer(in.SecurityContext))
 	out.ImagePullSecrets = *(*[]core.LocalObjectReference)(unsafe.Pointer(&in.ImagePullSecrets))
 	// WARNING: in.Affinity requires manual conversion: does not exist in peer-type
+	out.PodPlacementPolicy = in.PodPlacementPolicy
 	out.SchedulerName = in.SchedulerName
 	out.Tolerations = *(*[]core.Toleration)(unsafe.Pointer(&in.Tolerations))
 	out.PriorityClassName = in.PriorityClassName
@@ -164,6 +165,7 @@ func Convert_v2_PodSpec_To_v1_PodSpec(in *v2.PodSpec, out *v1.PodSpec, s convers
 	out.ShareProcessNamespace = (*bool)(unsafe.Pointer(in.ShareProcessNamespace))
 	out.SecurityContext = (*core.PodSecurityContext)(unsafe.Pointer(in.SecurityContext))
 	out.ImagePullSecrets = *(*[]core.LocalObjectReference)(unsafe.Pointer(&in.ImagePullSecrets))
+	out.PodPlacementPolicy = in.PodPlacementPolicy
 	out.SchedulerName = in.SchedulerName
 	out.Tolerations = *(*[]core.Toleration)(unsafe.Pointer(&in.Tolerations))
 	// WARNING: in.HostAliases requires manual conversion: does not exist in peer-type
