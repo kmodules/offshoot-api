@@ -271,4 +271,9 @@ type PodSpec struct {
 	// This field is alpha-level and is only honored by servers that enable the UserNamespacesSupport feature.
 	// +optional
 	HostUsers *bool `json:"hostUsers,omitempty"`
+
+	// PodPlacementPolicy is the reference of the podPlacementPolicy
+	// +kubebuilder:default={name:"default"}
+	// +optional
+	PodPlacementPolicy *core.LocalObjectReference `json:"podPlacementPolicy,omitempty"`
 }
