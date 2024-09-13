@@ -194,8 +194,8 @@ k8s.io/kube-openapi v0.0.0-20240703190633-0aa61b46e8c2 h1:T5TEV4a+pEjc+j9Xui3MGG
 k8s.io/kube-openapi v0.0.0-20240703190633-0aa61b46e8c2/go.mod h1:UxDHUPsUwTOOxSU+oXURfFBcAS6JwiRXTYqYwfuGowc=
 k8s.io/utils v0.0.0-20230726121419-3b25d923346b h1:sgn3ZU783SCgtaSJjpcVVlRqd6GSnlTLKgpAAttJvpI=
 k8s.io/utils v0.0.0-20230726121419-3b25d923346b/go.mod h1:OLgZIPagt7ERELqWJFomSt595RzquPNLL48iOWgYOg0=
-kmodules.xyz/client-go v0.30.9 h1:wiLivFlqVZOitAqLFEa1n53GkbYYOmiR8upjIHPHrYk=
-kmodules.xyz/client-go v0.30.9/go.mod h1:XL3PDQIXG4s3xNRL2SSxIvi8b2WyMGpn26dFnOBz0j4=
+kmodules.xyz/client-go v0.30.14 h1:Zi3hoIoJOeEYXzafrbwN8ql+L1I5/pKCjcjRHuwiNfU=
+kmodules.xyz/client-go v0.30.14/go.mod h1:XL3PDQIXG4s3xNRL2SSxIvi8b2WyMGpn26dFnOBz0j4=
 sigs.k8s.io/json v0.0.0-20221116044647-bc3834ca7abd h1:EDPBXCAspyGV4jQlpZSudPeMmr1bNJefnuqLsRAsHZo=
 sigs.k8s.io/json v0.0.0-20221116044647-bc3834ca7abd/go.mod h1:B8JuhiUyNFVKdsE8h686QcCxMaH6HrOAZj4vswFpcB0=
 sigs.k8s.io/structured-merge-diff/v4 v4.4.1 h1:150L+0vs/8DA78h1u02ooW1/fFq/Lwr+sGiqlzvrtq4=
