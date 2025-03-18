@@ -8,8 +8,8 @@ require (
 	github.com/gogo/protobuf v1.3.2
 	k8s.io/api v0.32.2
 	k8s.io/apimachinery v0.32.2
-	k8s.io/kube-openapi v0.0.0-20241212222426-2c72e554b1e7
-	kmodules.xyz/client-go v0.30.47-0.20250302101702-ef36725e9e6e
+	k8s.io/kube-openapi v0.0.0-20250304201544-e5f78fe3ede9
+	kmodules.xyz/client-go v0.32.0
 )
 
 require (
@@ -31,7 +31,7 @@ require (
 	github.com/json-iterator/go v1.1.12 // indirect
 	github.com/klauspost/cpuid/v2 v2.0.9 // indirect
 	github.com/mailru/easyjson v0.7.7 // indirect
-	github.com/mattn/go-colorable v0.1.13 // indirect
+	github.com/mattn/go-colorable v0.1.14 // indirect
 	github.com/mitchellh/mapstructure v1.5.0 // indirect
 	github.com/modern-go/concurrent v0.0.0-20180306012644-bacd9c7ef1dd // indirect
 	github.com/modern-go/reflect2 v1.0.2 // indirect
@@ -44,13 +44,13 @@ require (
 	github.com/yudai/gojsondiff v1.0.0 // indirect
 	github.com/yudai/golcs v0.0.0-20170316035057-ecda9a501e82 // indirect
 	github.com/zeebo/xxh3 v1.0.2 // indirect
-	golang.org/x/net v0.35.0 // indirect
+	golang.org/x/net v0.36.0 // indirect
 	golang.org/x/oauth2 v0.27.0 // indirect
 	golang.org/x/sys v0.30.0 // indirect
 	golang.org/x/term v0.29.0 // indirect
 	golang.org/x/text v0.22.0 // indirect
 	golang.org/x/time v0.10.0 // indirect
-	gomodules.xyz/jsonpatch/v2 v2.4.0 // indirect
+	gomodules.xyz/jsonpatch/v2 v2.5.0 // indirect
 	gomodules.xyz/mergo v0.3.13 // indirect
 	gomodules.xyz/pointer v0.1.0 // indirect
 	google.golang.org/protobuf v1.36.3 // indirect
@@ -61,6 +61,7 @@ require (
 	k8s.io/klog/v2 v2.130.1 // indirect
 	k8s.io/utils v0.0.0-20241104100929-3ea5e8cea738 // indirect
 	sigs.k8s.io/json v0.0.0-20241010143419-9aa6b5e7a4b3 // indirect
-	sigs.k8s.io/structured-merge-diff/v4 v4.4.3 // indirect
+	sigs.k8s.io/randfill v1.0.0 // indirect
+	sigs.k8s.io/structured-merge-diff/v4 v4.6.0 // indirect
 	sigs.k8s.io/yaml v1.4.0 // indirect
 )
